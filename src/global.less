@@ -1,0 +1,46 @@
+#root,
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+  .ant-back-top-content {
+    transition: background-color 0.5s linear;
+    &:hover {
+      background-color: #120c0c;
+    }
+  }
+}
+
+::-webkit-scrollbar {
+  display: block;
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #434b55;
+  border: 1px solid #434b55;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--datav-scroll-track-bg);
+}
+
+.card-content {
+  // height: 100%;
+  padding: 24px;
+  background: #fff;
+  h3 {
+    font-weight: bold;
+  }
+}
+
+@keyframes fxRichTextFadeIn {
+  0% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+  

@@ -1,0 +1,6 @@
+{
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "jestrunner.jestCommand": "umi test ",
+  "liveServer.settings.port": 8001,
+  "git.ignoreLimitWarning": true
+}

@@ -1,0 +1,55 @@
+.ant-layout {
+  flex-direction: column !important;
+  height: 100%;
+  min-height: 100vh;
+  &-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .logo {
+      width: 120px;
+      height: 31px;
+      margin: 16px 24px 16px 0;
+      background: rgba(255, 255, 255, 0.3);
+    }
+  }
+  &-content {
+    display: flex;
+    flex-direction: column;
+    width: 100% !important;
+    max-width: 1600px;
+    height: 100%;
+    margin: 0 auto;
+  }
+}
+@media print {
+  .ant-layout {
+    background: #fff;
+  }
+}
+
+.configPage {
+  display: flex;
+  flex-direction: row;
+  padding: 24px;
+  padding-bottom: 0;
+
+  .ant-layout-sider {
+    background: transparent;
+  }
+}
+
+@menuHeight: 64px;
+@footerHeight: 48px;
+.notLogin {
+  :after {
+    position: fixed;
+    top: @menuHeight;
+    left: 0;
+    // z-index: 1;
+    width: 100%;
+    height: calc(100% - @menuHeight - @footerHeight);
+    backdrop-filter: blur(1px);
+    content: '';
+  }
+}
