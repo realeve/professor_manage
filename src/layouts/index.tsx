@@ -1,6 +1,6 @@
 import { Layout, Menu } from 'antd'; // BackTop
 import './index.less';
-import { HomeOutlined, PlusOutlined, SettingOutlined, SearchOutlined } from '@ant-design/icons';
+import { HomeOutlined, SettingOutlined } from '@ant-design/icons';
 import { Link, useLocation } from 'umi';
 import LoginPanel from '@/component/login';
 import Footer from './Footer';
@@ -17,6 +17,10 @@ const ConfigMenuList = [
   {
     title: '标签管理',
     url: '/config/tags',
+  },
+  {
+    title: '专家列表',
+    url: '/config/user',
   },
 ];
 

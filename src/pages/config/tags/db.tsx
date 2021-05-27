@@ -84,3 +84,39 @@ export const setProfessorTagLogs: (params: { tag_id: number; uid: number }) => P
     url: '/1349/6aadd20325.json',
     params,
   }).then(({ data: [{ affected_rows }] }) => affected_rows > 0);
+
+export interface IProfessorItem {
+  uid: number;
+  mark_label: string;
+  username: string;
+  sex: string;
+  people: string;
+  birth_date: string;
+  degree: string;
+  graduate_date: string;
+  educate_background: string;
+  hometown: string;
+  card_type: string;
+  card_no: string;
+  career: string;
+  politial_status: string;
+  company: string;
+  work_time_start: string;
+  company_type: string;
+  duty: string;
+  tech_level: string;
+  work_status: string;
+  industry_type: string;
+  vocate_qualify: string;
+  email: string;
+  phone: string;
+  mobile: string;
+}
+/**
+ *   @database: { 接口管理 }
+ *   @desc:     { 专家基础信息 }
+ */
+export const getProfessorFullUser = () =>
+  axios<IProfessorItem>({
+    url: '/1350/a256a39dac.json',
+  }).then((res) => res.data);
