@@ -5,6 +5,7 @@ import { IProfessorItem, getProfessorFullUser } from '../tags/db';
 import UserList from '../tags/UserList';
 import { Row, Col } from 'antd';
 import UserEditor from './UserEditor';
+import UserPermission from './UserPermission';
 
 export default () => {
   const [loading, setLoading] = useState(false);
@@ -29,6 +30,7 @@ export default () => {
       <Col span={8}>
         <h3>专家库</h3>
         <UserList
+          height={1000}
           loading={loading}
           data={users}
           onEdit={(i) => {
@@ -40,6 +42,7 @@ export default () => {
       </Col>
       {curUser && (
         <Col span={16}>
+          <UserPermission user={curUser} />
           <UserEditor user={curUser} />
         </Col>
       )}

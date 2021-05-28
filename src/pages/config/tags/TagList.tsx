@@ -3,13 +3,13 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 import { Tooltip, Skeleton } from 'antd';
 
-import { EditOutlined } from '@ant-design/icons';
+import { EditOutlined, RightOutlined, LeftOutlined } from '@ant-design/icons';
 import classnames from 'classnames';
 
 const tooltipText = {
   editor: '编辑',
-  left: '添加权限',
-  right: '解除权限',
+  left: '添加',
+  right: '解除',
 };
 
 const TagList = ({
@@ -46,7 +46,11 @@ const TagList = ({
               <label>
                 {i + 1}.{tag.tag_name}
               </label>
-              <div className={styles.action}>{icon == 'editor' && <EditOutlined />}</div>
+              <div className={styles.action}>
+                {icon == 'editor' && <EditOutlined />}
+                {icon == 'right' && <RightOutlined />}
+                {icon == 'left' && <LeftOutlined />}
+              </div>
             </div>
           </Tooltip>
         ))}
