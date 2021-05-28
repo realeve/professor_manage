@@ -1,0 +1,16 @@
+{
+  "data": [
+    { "log_id": 1, "tag_id": 2, "uid": 1, "status": 1 },
+    { "log_id": 3, "tag_id": 3, "uid": 1, "status": 0 },
+    { "log_id": 7, "tag_id": 4, "uid": 1, "status": 1 }
+  ],
+  "rows": 3,
+  "dates": [],
+  "ip": "10.8.60.203",
+  "header": ["log_id", "tag_id", "uid", "status"],
+  "title": "查询指定专家的标签列表",
+  "time": "7.039ms",
+  "serverTime": "2021-05-28 16:42:18",
+  "source": "数据来源：接口管理",
+  "hash": "W/\"eee9581e52f45ec341972150872132a5\""
+}

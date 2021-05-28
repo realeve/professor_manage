@@ -77,7 +77,7 @@ export default ({ user }: { user: IUserItem }) => {
           </div>
         </Col>
         <Col span={12}>
-          <h3 className={styles.title}>专家 {user.username} 的标签</h3>
+          <h3 className={styles.title}>可用标签</h3>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <TagList
               data={invalid}

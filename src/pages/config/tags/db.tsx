@@ -1,4 +1,4 @@
-import { axios, TDbWrite } from '@/utils/axios';
+import { axios, TDbWrite, DEV, _commonData } from '@/utils/axios';
 
 /**
  *   @database: { 接口管理 }
@@ -6,7 +6,7 @@ import { axios, TDbWrite } from '@/utils/axios';
  */
 export const getProfessorTags = () =>
   axios<{ id: number; tag_name: string }>({
-    url: '/1344/fad62f35ba.json',
+    url: DEV ? '/mock/1344_fad62f35ba.json' : '/1344/fad62f35ba.json',
   }).then((res) => res.data);
 
 /**
@@ -15,7 +15,7 @@ export const getProfessorTags = () =>
  */
 export const addProfessorTags: (tag_name: string) => Promise<number> = (tag_name) =>
   axios<TDbWrite>({
-    url: '/1345/0f9a000a2a.json',
+    url: DEV ? _commonData : '/1345/0f9a000a2a.json',
     params: {
       tag_name,
     },
@@ -41,7 +41,7 @@ export interface IUserItem {
  */
 export const getProfessorUser = () =>
   axios<IUserItem>({
-    url: '/1346/2fe2b79f80.json',
+    url: DEV ? '/mock/1346_2fe2b79f80.json' : '/1346/2fe2b79f80.json',
   }).then((res) => res.data);
 
 export interface ITagLog {
@@ -55,7 +55,7 @@ export interface ITagLog {
  */
 export const getProfessorTagLogs = (tag_id: number) =>
   axios<ITagLog>({
-    url: '/1347/ca4f9c3188.json',
+    url: DEV ? '/mock/1347_ca4f9c3188.json' : '/1347/ca4f9c3188.json',
     params: {
       tag_id,
     },
@@ -69,7 +69,7 @@ export const addProfessorTagLogs: (params: { tag_id: number; uid: number }) => P
   params,
 ) =>
   axios<TDbWrite>({
-    url: '/1348/d6780d3683.json',
+    url: DEV ? _commonData : '/1348/d6780d3683.json',
     params,
   }).then(({ data: [{ id }] }) => id > 0);
 
@@ -81,7 +81,7 @@ export const setProfessorTagLogs: (params: { tag_id: number; uid: number }) => P
   params,
 ) =>
   axios<TDbWrite>({
-    url: '/1349/6aadd20325.json',
+    url: DEV ? _commonData : '/1349/6aadd20325.json',
     params,
   }).then(({ data: [{ affected_rows }] }) => affected_rows > 0);
 
@@ -118,5 +118,5 @@ export interface IProfessorItem {
  */
 export const getProfessorFullUser = () =>
   axios<IProfessorItem>({
-    url: '/1350/a256a39dac.json',
+    url: DEV ? '/mock/1350_a256a39dac.json' : '/1350/a256a39dac.json',
   }).then((res) => res.data);

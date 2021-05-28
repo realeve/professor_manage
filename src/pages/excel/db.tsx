@@ -1,4 +1,4 @@
-import { axios, TDbWrite } from '@/utils/axios';
+import { axios, DEV, _commonData, TDbWrite } from '@/utils/axios';
 
 interface IUserItem {
   mark_label: string;
@@ -35,7 +35,7 @@ interface IUserItem {
 export const addProfessorUser = (values: IUserItem[]) =>
   axios<TDbWrite>({
     method: 'post',
-    url: '/1343/2bb7d6ec84.json',
+    url: DEV ? _commonData : '/1343/2bb7d6ec84.json',
     data: {
       values,
     },
