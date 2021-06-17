@@ -11,7 +11,7 @@ interface ITagItem {
   id: number;
   tag_name: string;
 }
-export default ({ user }: { user: IProfessorItem }) => {
+export default ({ user, panelHeight = 400 }: { user: IProfessorItem; panelHeight?: number }) => {
   const [loading, setLoading] = useState(false);
   const [tags, setTags] = useState<ITagItem[]>(null);
 
@@ -68,7 +68,7 @@ export default ({ user }: { user: IProfessorItem }) => {
             <TagList
               data={valid}
               loading={loading}
-              height={400}
+              height={panelHeight}
               onEdit={(i) => {
                 toggleTag(valid[i]);
               }}
@@ -82,7 +82,7 @@ export default ({ user }: { user: IProfessorItem }) => {
             <TagList
               data={invalid}
               loading={loading}
-              height={400}
+              height={panelHeight}
               onEdit={(i) => {
                 toggleTag(invalid[i]);
               }}

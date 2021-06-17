@@ -17,10 +17,12 @@ export default ({
   operator_uid,
   user,
   onEditComplete,
+  showNew = true,
 }: {
   operator_uid: number;
   user: IProfessorItem;
   onEditComplete: () => void;
+  showNew?: boolean;
 }) => {
   const [state, setState] = useSetState(user);
   useEffect(() => {
@@ -70,27 +72,29 @@ export default ({
         >
           更新基础信息
         </Button>
-        <Button
-          type="default"
-          style={{ marginLeft: 20 }}
-          onClick={() => {
-            db.addProfessorUser({ ...state, operator_uid }).then((success) => {
-              message[success ? 'success' : 'error'](`个人信息增加${success ? '成功' : '失败'}`);
-              if (success) {
-                onEditComplete?.();
+        {showNew && (
+          <Button
+            type="default"
+            style={{ marginLeft: 20 }}
+            onClick={() => {
+              db.addProfessorUser({ ...state, operator_uid }).then((success) => {
+                message[success ? 'success' : 'error'](`个人信息增加${success ? '成功' : '失败'}`);
+                if (success) {
+                  onEditComplete?.();
 
-                // 重置数据
-                let nextState = R.clone(state);
-                Object.keys(nextState).forEach((key) => {
-                  nextState[key] = '';
-                });
-                setState(nextState);
-              }
-            });
-          }}
-        >
-          新增专家
-        </Button>
+                  // 重置数据
+                  let nextState = R.clone(state);
+                  Object.keys(nextState).forEach((key) => {
+                    nextState[key] = '';
+                  });
+                  setState(nextState);
+                }
+              });
+            }}
+          >
+            新增专家
+          </Button>
+        )}
       </div>
     </>
   );
