@@ -62,10 +62,13 @@ const Index = ({
   return (
     <Card>
       <div className={styles.uploadWrapper}>
+        <a href="/doc/专家库样表.xlsx">
+          点击此处下载样表
+        </a>
         <Upload.Dragger
           showUploadList={false}
           accept=".xlsx,.xls"
-          style={{ padding: 10 }}
+          style={{ padding: 10 ,marginTop:10}}
           beforeUpload={(file) => {
             setLoading(true);
             lib

@@ -1,5 +1,5 @@
 import styles from './index.less';
-import { IUserItem } from './db';
+import { IProfessorItem } from './db';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import { Tooltip, Skeleton } from 'antd';
@@ -21,7 +21,7 @@ const UserList = ({
   icon = 'editor',
 }: {
   loading: boolean;
-  data: IUserItem[];
+  data: IProfessorItem[];
   onEdit: (idx: number) => void;
   height?: number;
   icon?: 'editor' | 'left' | 'right';

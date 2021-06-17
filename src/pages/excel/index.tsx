@@ -1,18 +1,23 @@
 import * as db from './db';
 import FileDecode from './FileDecode';
 
-const dateColumn = [4, 6, 14];
+import { connect } from 'dva';
+import { ICommon } from '@/models/common';
+
+const dateColumn = [4, 11, 16];
 
 // 从第2行开始
 const startFrom = 2;
 
-export default () => {
+const ExcelPage = ({ user }) => {
   const uploadData = async (src) => {
     let arr = src.slice(startFrom - 1, src.length);
+
     let data = arr.filter((item) => item[0] != null);
+
     let values = data.map((item) => {
-      let res = {};
-      item.map((value, idx) => {
+      let res = { operator_uid: user.uid };
+      item.slice(1).map((value, idx) => {
         let key = db.userBaseInfo[idx].key;
         res[key] = value;
       });
@@ -23,3 +28,7 @@ export default () => {
   };
   return <FileDecode onUpload={uploadData} dateColumn={dateColumn} />;
 };
+
+export default connect(({ common: { userSetting } }: { common: ICommon }) => ({
+  user: userSetting,
+}))(ExcelPage);

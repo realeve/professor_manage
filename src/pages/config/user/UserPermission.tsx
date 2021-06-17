@@ -3,7 +3,7 @@ import styles from '../tags/index.less';
 import { getProfessorTags, addProfessorTagLogs, setProfessorTagLogs } from '../tags/db';
 import TagList from '../tags/TagList';
 
-import { IUserItem, ITagLog } from '../tags/db';
+import { IProfessorItem, ITagLog } from '../tags/db';
 import { Button, message, Row, Col } from 'antd';
 import * as db from './db';
 
@@ -11,7 +11,7 @@ interface ITagItem {
   id: number;
   tag_name: string;
 }
-export default ({ user }: { user: IUserItem }) => {
+export default ({ user }: { user: IProfessorItem }) => {
   const [loading, setLoading] = useState(false);
   const [tags, setTags] = useState<ITagItem[]>(null);
 

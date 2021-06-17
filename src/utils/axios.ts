@@ -260,7 +260,11 @@ export const axios: <T = TAxiosData>(params: IAxiosConfig) => Promise<IAxiosStat
 
   let option: AxiosRequestConfig = handleUrl(_option);
 
-  if (_option.url !== option.url || option.url.includes('/mock/')) {
+  if (
+    _option.url !== option.url ||
+    option.url.includes('/mock/') ||
+    option.url.includes('@/mock/')
+  ) {
     console.log('mocking');
     await sleep(Math.random() * 2000 + 2000);
   }

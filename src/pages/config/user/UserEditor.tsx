@@ -1,15 +1,27 @@
-import { Modal, Input } from 'antd';
-import React, { useState, useEffect } from 'react';
+import { Input, Radio } from 'antd';
+import React, { useEffect } from 'react';
 import FormItem from '@/component/hooks/FormItem';
 import { useSetState } from 'react-use';
-import { IUserItem } from '../tags/db';
-import { userBaseInfo } from '@/pages/excel/db';
+import { IProfessorItem } from '../tags/db';
+import { userBaseInfo, chooseList, chooseKeys } from '@/pages/excel/db';
 import 'antd/lib/form/style/index.less';
 import './userEdit.less';
 import { Button, message } from 'antd';
 import * as db from './db';
+import * as R from 'ramda';
 
-export default ({ user }: { user: IUserItem }) => {
+const RadioGroup = Radio.Group;
+const RadioButton = Radio.Button;
+
+export default ({
+  operator_uid,
+  user,
+  onEditComplete,
+}: {
+  operator_uid: number;
+  user: IProfessorItem;
+  onEditComplete: () => void;
+}) => {
   const [state, setState] = useSetState(user);
   useEffect(() => {
     setState(user);
@@ -21,13 +33,28 @@ export default ({ user }: { user: IUserItem }) => {
       <div className="ant-form ant-form-horizontal">
         {userBaseInfo.map(({ key, value }) => (
           <FormItem label={value} name={key} key={key} style={{ marginBottom: 10 }}>
-            <Input
-              value={state[key]}
-              onChange={(e) => {
-                setState({ [key]: e.target.value });
-              }}
-              style={{ width: 200 }}
-            />
+            {chooseKeys.includes(key) ? (
+              <RadioGroup
+                value={state[key]}
+                onChange={(e) => {
+                  setState({ [key]: e.target.value });
+                }}
+              >
+                {chooseList[key].map((item) => (
+                  <RadioButton value={item} key={item}>
+                    {item}
+                  </RadioButton>
+                ))}
+              </RadioGroup>
+            ) : (
+              <Input
+                value={state[key]}
+                onChange={(e) => {
+                  setState({ [key]: e.target.value });
+                }}
+                style={{ width: 200 }}
+              />
+            )}
           </FormItem>
         ))}
       </div>
@@ -35,18 +62,30 @@ export default ({ user }: { user: IUserItem }) => {
         <Button
           type="primary"
           onClick={() => {
-            db.setProfessorUser(state).then((success) => {
+            db.setProfessorUser({ ...state, operator_uid }).then((success) => {
               message[success ? 'success' : 'error'](`个人信息更新${success ? '成功' : '失败'}`);
+              success && onEditComplete?.();
             });
           }}
         >
           更新基础信息
         </Button>
         <Button
-          type="default" style={{marginLeft:20}}
+          type="default"
+          style={{ marginLeft: 20 }}
           onClick={() => {
-            db.addProfessorUser(state).then((success) => {
+            db.addProfessorUser({ ...state, operator_uid }).then((success) => {
               message[success ? 'success' : 'error'](`个人信息增加${success ? '成功' : '失败'}`);
+              if (success) {
+                onEditComplete?.();
+
+                // 重置数据
+                let nextState = R.clone(state);
+                Object.keys(nextState).forEach((key) => {
+                  nextState[key] = '';
+                });
+                setState(nextState);
+              }
             });
           }}
         >

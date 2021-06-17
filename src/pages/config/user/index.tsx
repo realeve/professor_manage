@@ -6,8 +6,10 @@ import UserList from '../tags/UserList';
 import { Row, Col } from 'antd';
 import UserEditor from './UserEditor';
 import UserPermission from './UserPermission';
+import { connect } from 'dva';
+import { ICommon } from '@/models/common';
 
-export default () => {
+const UserPage = ({ user }) => {
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<IProfessorItem[]>([]);
 
@@ -43,9 +45,13 @@ export default () => {
       {curUser && (
         <Col span={16}>
           <UserPermission user={curUser} />
-          <UserEditor user={curUser} />
+          <UserEditor operator_uid={user.uid} user={curUser} onEditComplete={refresh} />
         </Col>
       )}
     </Row>
   );
 };
+
+export default connect(({ common: { userSetting } }: { common: ICommon }) => ({
+  user: userSetting,
+}))(UserPage);

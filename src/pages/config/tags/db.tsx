@@ -1,4 +1,6 @@
 import { axios, TDbWrite, DEV, _commonData } from '@/utils/axios';
+import { IUserItem as IProfessor } from '@/pages/excel/db';
+export interface IProfessorItem extends IProfessor {}
 
 /**
  *   @database: { 接口管理 }
@@ -85,38 +87,25 @@ export const setProfessorTagLogs: (params: { tag_id: number; uid: number }) => P
     params,
   }).then(({ data: [{ affected_rows }] }) => affected_rows > 0);
 
-export interface IProfessorItem {
-  uid: number;
-  mark_label: string;
-  username: string;
-  sex: string;
-  people: string;
-  birth_date: string;
-  degree: string;
-  graduate_date: string;
-  educate_background: string;
-  hometown: string;
-  card_type: string;
-  card_no: string;
-  career: string;
-  politial_status: string;
-  company: string;
-  work_time_start: string;
-  company_type: string;
-  duty: string;
-  tech_level: string;
-  work_status: string;
-  industry_type: string;
-  vocate_qualify: string;
-  email: string;
-  phone: string;
-  mobile: string;
-}
 /**
  *   @database: { 接口管理 }
  *   @desc:     { 专家基础信息 }
  */
 export const getProfessorFullUser = () =>
-  axios<IProfessorItem>({
+  axios<IProfessor>({
     url: DEV ? '/mock/1350_a256a39dac.json' : '/1350/a256a39dac.json',
   }).then((res) => res.data);
+
+/**
+*   @database: { 接口管理 }
+*   @desc:     { 更新标签名称 } 
+	以下参数在建立过程中与系统保留字段冲突，已自动替换:
+	@id:_id. 参数说明：api 索引序号 
+*/
+export const setProfessorTags: (params: { tag_name: string; _id: number }) => Promise<boolean> = (
+  params,
+) =>
+  axios<TDbWrite>({
+    url: DEV ? _commonData : '/1356/49ab35f917.json',
+    params,
+  }).then(({ data: [{ affected_rows }] }) => affected_rows > 0);

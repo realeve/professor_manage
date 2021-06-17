@@ -5,7 +5,7 @@ import * as db from './db';
 import UserList from './UserList';
 import { Row, Col, message } from 'antd';
 
-export default ({ tag }: { tag: { id: number; tag_name: string } | null }) => {
+export default ({ tag,onEditComplete }: { tag: { id: number; tag_name: string } | null ,onEditComplete:()=>void}) => {
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<db.IUserItem[]>([]);
   const [validUser, setValidUser] = useState<db.IUserItem[]>([]);
@@ -63,8 +63,10 @@ export default ({ tag }: { tag: { id: number; tag_name: string } | null }) => {
     <div className={styles.editTag}>
       <h3>编辑标签</h3>
       <TagEditor
-        onSubmit={(nextTag: string) => {
-          console.log(nextTag);
+        onSubmit={(tag_name: string) => { 
+          db.setProfessorTags({tag_name,_id:tag.id}).then(success=>{
+            success && onEditComplete?.()
+          })
         }}
         name={tag?.tag_name}
       />

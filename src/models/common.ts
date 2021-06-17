@@ -62,7 +62,7 @@ export interface IUserSetting {
 
 // 未登录用户
 const defaultUserSetting: IUserSetting = {
-  uid: 0,
+  uid: 2,
   avatar: '',
   username: '',
   fullname: '',
@@ -139,7 +139,7 @@ export default {
         },
       });
       let ip = yield call(getIp);
-      authIP(ip);
+      // authIP(ip);
 
       yield put({
         type: 'setStore',

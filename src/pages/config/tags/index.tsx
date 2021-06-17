@@ -55,7 +55,7 @@ export default () => {
             }}
           />
 
-          <EditTag tag={curTag} />
+          <EditTag tag={curTag} onEditComplete={refresh}/>
         </div>
       </div>
     </div>
