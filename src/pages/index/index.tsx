@@ -59,6 +59,7 @@ export default function IndexPage() {
         width={1200}
         onCancel={() => {
           setShow(false);
+          refresh();
         }}
         footer={null}
         className={styles.editPanel}

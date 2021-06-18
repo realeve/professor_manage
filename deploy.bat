@@ -2,7 +2,7 @@ echo off
 color 0a 
 
 rem 测试数据目录
-set destDir=\\10.8.1.25\dist\
+set destDir=\\10.8.1.25\professor\
 set srcDir=.\dist
  
 rem remove files
@@ -14,5 +14,5 @@ REM 拷贝JSON文件
 xcopy %srcDir% %destDir% /E /Y /F
 
 rem 打开网站
-start http://10.8.1.25/list/
+start http://10.8.1.25:99/
 pause
