@@ -77,7 +77,7 @@ export default ({ user, panelHeight = 400 }: { user: IProfessorItem; panelHeight
           </div>
         </Col>
         <Col span={12}>
-          <h3 className={styles.title}>可用标签</h3>
+          <h3 className={styles.title}>其它标签</h3>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <TagList
               data={invalid}

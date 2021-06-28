@@ -19,6 +19,23 @@ export type TCareer =
   | '机检技术（造币）'
   | '其他';
 
+export const careerList = `承印基材
+安全线（条）
+油墨涂层
+设计制版
+防伪材料
+印钞工艺
+专用设备（钞券）
+银行机具（钞券）
+机检技术（钞券）
+造币材料
+造币工艺
+设计制模
+专用设备（造币）
+银行机具（造币）
+机检技术（造币）
+其他`.split('\n');
+
 /** 学位 */
 export type TDegree = '博士' | '硕士' | '学士';
 export const degreeList = ['博士', '硕士', '学士'];
@@ -120,6 +137,9 @@ const tagName = `姓名
 职务
 职称
 在岗状态
+专业分类1
+专业分类2
+专业分类3
 电子信箱
 单位电话
 手机号码
@@ -145,6 +165,9 @@ work_time_start
 duty
 tech_level
 work_status
+tag1
+tag2
+tag3
 email
 phone
 mobile`
@@ -152,3 +175,11 @@ mobile`
   .split('\n');
 
 export const userBaseInfo = keyList.map((key, i) => ({ key, value: tagName[i] }));
+
+export const emptyBaseInfo = () => {
+  let res = {};
+  keyList.forEach((key) => {
+    res[key] = '';
+  });
+  return res;
+};

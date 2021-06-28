@@ -33,7 +33,7 @@ const authIP = (ip: string) => {
 
 const namespace = 'common';
 export interface IUserSetting {
-  uid: string | number;
+  uid: number;
   avatar: string;
   /** 登录名 */
   username: string;
