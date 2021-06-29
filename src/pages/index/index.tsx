@@ -12,6 +12,8 @@ import { SearchOutlined } from '@ant-design/icons';
 
 import { useSetState } from 'react-use';
 
+import { emptyBaseInfo } from '@/pages/excel/db';
+
 export default function IndexPage() {
   const [loading, setLoading] = useState(false);
   const [srcState, setSrcState] = useState<IProfessorItem[]>(null);
@@ -168,6 +170,8 @@ export default function IndexPage() {
     setDataSource(data);
   }, [filters?.tags]);
 
+  const [newuser, setNewuser] = useState(false);
+
   return (
     <Card className={styles.home}>
       <Modal
@@ -189,6 +193,7 @@ export default function IndexPage() {
               user={curUser}
               onEditComplete={() => {
                 refresh();
+                setShow(false);
               }}
               showNew={false}
             />
@@ -196,6 +201,37 @@ export default function IndexPage() {
         )}
       </Modal>
 
+      <Button
+        type="primary"
+        onClick={() => {
+          setNewuser(true);
+        }}
+        style={{ position: 'absolute', left: 25, bottom: 35, zIndex: 100 }}
+      >
+        新增专家
+      </Button>
+
+      <Modal
+        title={null}
+        visible={newuser}
+        width={1200}
+        onCancel={() => {
+          setNewuser(false);
+          refresh();
+        }}
+        footer={null}
+        className={styles.editPanel}
+      >
+        <UserEditor
+          operator_uid={2}
+          user={{ ...emptyBaseInfo(), card_type: '身份证' }}
+          onEditComplete={() => {
+            refresh();
+            setNewuser(false);
+          }}
+          showUpdate={false}
+        />
+      </Modal>
       <Table
         size="small"
         columns={columns}

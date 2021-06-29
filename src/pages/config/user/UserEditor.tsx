@@ -18,11 +18,13 @@ export default ({
   user,
   onEditComplete,
   showNew = true,
+  showUpdate = true,
 }: {
   operator_uid: number;
   user: IProfessorItem;
   onEditComplete: () => void;
   showNew?: boolean;
+  showUpdate?: boolean;
 }) => {
   const [state, setState] = useSetState(user);
   useEffect(() => {
@@ -63,21 +65,24 @@ export default ({
           ))}
       </div>
       <div style={{ marginLeft: 150 }}>
-        <Button
-          type="primary"
-          onClick={() => {
-            db.setProfessorUser({ ...state, operator_uid }).then((success) => {
-              message[success ? 'success' : 'error'](`个人信息更新${success ? '成功' : '失败'}`);
-              success && onEditComplete?.();
-            });
-          }}
-        >
-          确认更改
-        </Button>
+        {showUpdate && (
+          <Button
+            type="primary"
+            style={{ marginRight: 20 }}
+            onClick={() => {
+              db.setProfessorUser({ ...state, operator_uid }).then((success) => {
+                message[success ? 'success' : 'error'](`个人信息更新${success ? '成功' : '失败'}`);
+                success && onEditComplete?.();
+              });
+            }}
+          >
+            确认更改
+          </Button>
+        )}
+
         {showNew && (
           <Button
             type="default"
-            style={{ marginLeft: 20 }}
             onClick={() => {
               db.addProfessorUser({ ...state, operator_uid }).then((success) => {
                 message[success ? 'success' : 'error'](`个人信息增加${success ? '成功' : '失败'}`);

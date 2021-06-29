@@ -40,9 +40,12 @@ const MenuHeader = ({ pathname }: { pathname: string }) => (
       <Menu.Item key="/excel">
         <Link to="/excel">上传数据</Link>
       </Menu.Item>
-      <SubMenu key="/config" icon={<SettingOutlined />} title="系统配置">
+      <Menu.Item key="/config/tags">
+        <Link to="/config/tags">标签管理</Link>
+      </Menu.Item>
+      {/* <SubMenu key="/config" icon={<SettingOutlined />} title="系统配置">
         {MenuList}
-      </SubMenu>
+      </SubMenu> */}
     </Menu>
     <LoginPanel />
   </Header>
@@ -52,7 +55,7 @@ const LayoutWrapper = ({ children, user }: { children?: React.ReactNode; user: I
   const { pathname } = useLocation();
   const showMenu = !['/invalid'].includes(pathname);
   const isPrint = useMedia('print');
-  const isConfigPage = pathname.includes('/config/');
+  const isConfigPage = false; // pathname.includes('/config/');
 
   return (
     <Layout className="layout">

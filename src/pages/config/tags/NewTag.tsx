@@ -21,7 +21,7 @@ export const TagEditor = ({
   }, [name]);
   return (
     <>
-      <FormItem label="标签名" name="tagname">
+      <FormItem label="标签名" name="tagname" style={{ width: '100%' }}>
         <Input
           value={tag_name}
           onChange={(e) => {
@@ -32,13 +32,13 @@ export const TagEditor = ({
         />
       </FormItem>
       {onClose && (
-        <Button size="large" style={{ width: 120 }} onClick={onClose}>
+        <Button size="large" style={{ width: 120, marginRight: 20 }} onClick={onClose}>
           取消
         </Button>
       )}
       <Button
         size="large"
-        style={{ width: 120, marginLeft: 20 }}
+        style={{ width: 120 }}
         onClick={() => {
           onSubmit(tag_name);
         }}
