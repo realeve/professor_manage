@@ -1,13 +1,14 @@
-import { Tag } from 'antd';
-
-import { degreeList, educateList } from '@/pages/excel/db';
 import { getProfessorFullUser } from '@/pages/config/tags/db';
+
+import { Tag } from 'antd';
+import { degreeList, educateList } from '@/pages/excel/db';
 
 import * as R from 'ramda';
 import * as db from './db';
 export const getUniq = (key: string, data: {}[]) => {
   let list = R.pluck(key)(data);
   list = R.filter((item) => item)(list);
+  list = list.map((item) => String(item).trim());
   return R.uniq(list);
 };
 
@@ -26,113 +27,38 @@ export const getUserList = async () => {
 export const getTableConfig = async () => {
   let { users, uniqTag } = await getUserList();
 
-  const companyList = getUniq('company', users);
-  const careers = getUniq('career', users);
-  const techLevels = getUniq('tech_level', users);
-  const dutys = getUniq('duty', users);
   const tags = uniqTag;
-  const graduateCareer = getUniq('graduate_career', users);
+
+  const getFilter = (key: string) => {
+    const filterData = getUniq(key, users);
+    return {
+      dataIndex: key,
+      key,
+      filters: filterData.map((text) => ({ text, value: text })),
+      onFilter: (value, record) => record[key].indexOf(value) === 0,
+    };
+  };
 
   let columns = [
     {
       title: '#',
       dataIndex: 'idx',
       key: 'idx',
+      fixed: 'left',
+      width: 60,
     },
     {
       title: '姓名',
       dataIndex: 'username',
       key: 'username',
-    },
-    {
-      title: '性别',
-      dataIndex: 'sex',
-      key: 'sex',
-      filters: [
-        {
-          text: '男',
-          value: '男',
-        },
-        {
-          text: '女',
-          value: '女',
-        },
-      ],
-      // specify the condition of filtering result
-      // here is that finding the name started with `value`
-      onFilter: (value, record) => record.sex.indexOf(value) === 0,
-      sorter: (a, b) => a.sex - b.sex,
-      sortDirections: ['descend'],
-    },
-    {
-      title: '学位',
-      dataIndex: 'degree',
-      key: 'degree',
-      defaultSortOrder: 'descend',
-      filters: degreeList.map((text) => ({ text, value: text })),
-      onFilter: (value, record) => record.degree.indexOf(value) === 0,
-      sorter: (a, b) => a.degree - b.degree,
-    },
-
-    {
-      title: '学历',
-      dataIndex: 'educate_background',
-      key: 'educate_background',
-      defaultSortOrder: 'descend',
-      filters: educateList.map((text) => ({ text, value: text })),
-      onFilter: (value, record) => record.educate_background.indexOf(value) === 0,
-      sorter: (a, b) => a.educate_background - b.educate_background,
-    },
-    {
-      title: '毕业专业',
-      dataIndex: 'graduate_career',
-      key: 'graduate_career',
-      filters: graduateCareer.map((text) => ({ text, value: text })),
-      onFilter: (value, record) => record.graduate_career.indexOf(value) === 0,
-    },
-    {
-      title: '从事专业',
-      dataIndex: 'career',
-      key: 'career',
-      filters: careers.map((text) => ({ text, value: text })),
-      onFilter: (value, record) => record.career.indexOf(value) === 0,
+      width: 80,
+      fixed: 'left',
     },
     {
       title: '工作单位',
-      dataIndex: 'company',
-      key: 'company',
-      filters: companyList.map((text) => ({ text, value: text })),
-      onFilter: (value, record) => record.company.indexOf(value) === 0,
-    },
-    {
-      title: '职务',
-      dataIndex: 'duty',
-      key: 'duty',
-      filters: dutys.map((text) => ({ text, value: text })),
-      onFilter: (value, record) => record.duty.indexOf(value) === 0,
-    },
-    {
-      title: '职称',
-      dataIndex: 'tech_level',
-      key: 'tech_level',
-      filters: techLevels.map((text) => ({ text, value: text })),
-      onFilter: (value, record) => record.tech_level.indexOf(value) === 0,
-    },
-    {
-      title: '在岗状态',
-      dataIndex: 'work_status',
-      key: 'work_status',
-      filters: [
-        {
-          text: '在岗',
-          value: '在岗',
-        },
-        {
-          text: '不在岗',
-          value: '不在岗',
-        },
-      ],
-      onFilter: (value, record) => record.work_status.indexOf(value) === 0,
+      width: 160,
+      ...getFilter('company'),
+      fixed: 'left',
     },
     {
       title: '专业分类',
@@ -151,18 +77,116 @@ export const getTableConfig = async () => {
         </span>
       ),
       filters: tags.map((text) => ({ text, value: text })),
-      onFilter: (value, record) => record.tags.includes(value),
+      onFilter: (value, record) => {
+        return true;
+      },
+      width: 240,
     },
 
+    {
+      title: '性别',
+      width: 80,
+      ...getFilter('sex'),
+      sorter: (a, b) => a.sex - b.sex,
+      sortDirections: ['descend'],
+    },
+    {
+      title: '民族',
+      width: 100,
+      ...getFilter('people'),
+    },
+    {
+      title: '出身年月',
+      dataIndex: 'birth_date',
+      key: 'birth_date',
+      width: 100,
+    },
+    {
+      title: '籍贯',
+      ...getFilter('hometown'),
+      width: 100,
+    },
+    {
+      title: '年龄',
+      dataIndex: 'age',
+      key: 'age',
+      width: 80,
+      sorter: (a, b) => a.age - b.age,
+      sortDirections: ['descend'],
+    },
+    {
+      title: '学位',
+      width: 80,
+      defaultSortOrder: 'descend',
+      ...getFilter('degree'),
+      sorter: (a, b) => a.degree - b.degree,
+    },
+
+    {
+      title: '学历',
+      defaultSortOrder: 'descend',
+      width: 120,
+      ...getFilter('educate_background'),
+      sorter: (a, b) => a.educate_background - b.educate_background,
+    },
+    {
+      title: '毕业院校',
+      width: 160,
+      ...getFilter('graduate_college'),
+    },
+    {
+      title: '毕业专业',
+      ...getFilter('graduate_career'),
+      width: 160,
+    },
+    {
+      title: '毕业时间',
+      dataIndex: 'graduate_date',
+      key: 'graduate_date',
+      width: 100,
+    },
+    {
+      title: '从事专业',
+      width: 160,
+      ...getFilter('career'),
+    },
+    {
+      title: '政治面貌',
+      ...getFilter('political_status'),
+      width: 160,
+    },
+    {
+      title: '参加工作时间',
+      dataIndex: 'work_time_start',
+      key: 'work_time_start',
+      width: 100,
+    },
+    {
+      title: '职务',
+      width: 200,
+      ...getFilter('duty'),
+    },
+    {
+      title: '职称',
+      width: 120,
+      ...getFilter('tech_level'),
+    },
+    {
+      title: '在岗状态',
+      ...getFilter('work_status'),
+      width: 120,
+    },
     {
       title: '单位工作电话',
       dataIndex: 'phone',
       key: 'phone',
+      width: 160,
     },
     {
       title: '手机号',
       dataIndex: 'mobile',
       key: 'mobile',
+      width: 160,
     },
   ];
   return { col: columns, users };

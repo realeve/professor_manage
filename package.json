@@ -54,6 +54,7 @@
     "ramda": "^0.27.1",
     "react-beautiful-dnd": "^13.1.0",
     "react-custom-scrollbars": "^4.2.1",
+    "react-highlight-words": "^0.17.0",
     "react-use": "^17.1.1",
     "umi": "^3.3.7",
     "use-memo-one": "^1.1.2",

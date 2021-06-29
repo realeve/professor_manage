@@ -78,7 +78,7 @@ export default ({
       />
       <Row gutter={16} style={{ marginTop: 20 }}>
         <Col span={12}>
-          <h3>拥有标签</h3>
+          <h3>有此标签</h3>
           <UserList
             loading={loading}
             data={validUser}
@@ -91,7 +91,7 @@ export default ({
           />
         </Col>
         <Col span={12}>
-          <h3>没有标签</h3>
+          <h3>无此标签</h3>
           <UserList
             loading={loading}
             data={invalidUser}

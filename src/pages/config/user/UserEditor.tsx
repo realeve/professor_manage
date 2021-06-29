@@ -33,32 +33,34 @@ export default ({
     <>
       <h3>基础信息</h3>
       <div className="ant-form ant-form-horizontal">
-        {userBaseInfo.map(({ key, value }) => (
-          <FormItem label={value} name={key} key={key} style={{ marginBottom: 10 }}>
-            {chooseKeys.includes(key) ? (
-              <RadioGroup
-                value={state[key]}
-                onChange={(e) => {
-                  setState({ [key]: e.target.value });
-                }}
-              >
-                {chooseList[key].map((item) => (
-                  <RadioButton value={item} key={item}>
-                    {item}
-                  </RadioButton>
-                ))}
-              </RadioGroup>
-            ) : (
-              <Input
-                value={state[key]}
-                onChange={(e) => {
-                  setState({ [key]: e.target.value });
-                }}
-                style={{ width: 200 }}
-              />
-            )}
-          </FormItem>
-        ))}
+        {userBaseInfo
+          .filter((item) => !item.key.includes('tag'))
+          .map(({ key, value }) => (
+            <FormItem label={value} name={key} key={key} style={{ marginBottom: 10 }}>
+              {chooseKeys.includes(key) ? (
+                <RadioGroup
+                  value={state[key]}
+                  onChange={(e) => {
+                    setState({ [key]: e.target.value });
+                  }}
+                >
+                  {chooseList[key].map((item) => (
+                    <RadioButton value={item} key={item}>
+                      {item}
+                    </RadioButton>
+                  ))}
+                </RadioGroup>
+              ) : (
+                <Input
+                  value={state[key]}
+                  onChange={(e) => {
+                    setState({ [key]: e.target.value });
+                  }}
+                  style={{ width: 200 }}
+                />
+              )}
+            </FormItem>
+          ))}
       </div>
       <div style={{ marginLeft: 150 }}>
         <Button
@@ -70,7 +72,7 @@ export default ({
             });
           }}
         >
-          更新基础信息
+          确认更改
         </Button>
         {showNew && (
           <Button

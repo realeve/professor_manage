@@ -44,7 +44,7 @@ export const TagEditor = ({
         }}
         type="primary"
       >
-        确定
+        确认修改
       </Button>
     </>
   );

@@ -187,7 +187,7 @@ const Index = ({ user, dateColumn }: { user: IUserSetting; dateColumn: number[] 
   return (
     <Card>
       <div className={styles.uploadWrapper}>
-        <a href="/doc/专家库样表.xlsx">点击此处下载样表</a>
+        <a href="/doc/行业研发人员信息表-汇总表.xls">点击此处下载样表</a>
         <Upload.Dragger
           showUploadList={false}
           accept=".xlsx,.xls"
