@@ -5,6 +5,7 @@ export const routes = [
     component: '@/layouts/',
     routes: [
       { path: '/', component: '@/pages/index', title: systemName + ' - 首页' },
+      { path: '/index/docx', component: '@/pages/index/docx', title: systemName + ' - doc' },
 
       { path: '/excel', component: '@/pages/excel', title: systemName + ' - 文件解析' },
 

@@ -13,6 +13,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import { useSetState } from 'react-use';
 
 import { emptyBaseInfo } from '@/pages/excel/db';
+import DownloadDocx from './docx';
 
 export default function IndexPage() {
   const [loading, setLoading] = useState(false);
@@ -26,8 +27,43 @@ export default function IndexPage() {
 
   const [filters, setFilters] = useState({});
 
+  const [filterData, setFilterData] = useState([]);
+
+  const updateFilterData = (filters, dataSource) => {
+    const keys = Object.keys(filters).filter((item) => item != 'tags');
+    const filter = [];
+    keys.forEach((key) => {
+      if (!filters[key]) {
+        return;
+      }
+      filter.push({ key, val: filters[key] });
+    });
+    let nextState = R.clone(dataSource);
+    if (keys.length > 0) {
+      // 多次过滤数据
+      filter.forEach(({ key, val }) => {
+        nextState = nextState.filter((item) => val.includes(item[key]));
+      });
+    }
+    nextState = nextState.map((item) => {
+      if (!item.duty||item.duty == '无') {
+        item.duty = '';
+      }
+      if(!item.career){
+        item.career = ''
+      }
+      if (item.duty.length > 0) {
+        item.duty = '、' + item.duty;
+      }
+
+      return item;
+    });
+    setFilterData(nextState);
+  };
+
   const handleChange = (pagination, filters) => {
     setFilters(filters);
+    updateFilterData(filters, dataSource);
   };
 
   const [show, setShow] = useState(false);
@@ -63,19 +99,6 @@ export default function IndexPage() {
           <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
             重置
           </Button>
-          {/* <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              confirm({ closeDropdown: false });
-              setState({
-                searchText: selectedKeys[0],
-                searchedColumn: dataIndex,
-              });
-            }}
-          >
-            Filter
-          </Button> */}
         </Space>
       </div>
     ),
@@ -168,10 +191,11 @@ export default function IndexPage() {
       return flag;
     })(srcState);
     setDataSource(data);
+    updateFilterData(filters, data);
   }, [filters?.tags]);
 
   const [newuser, setNewuser] = useState(false);
-
+  console.log(filterData);
   return (
     <Card className={styles.home}>
       <Modal
@@ -201,16 +225,6 @@ export default function IndexPage() {
         )}
       </Modal>
 
-      <Button
-        type="primary"
-        onClick={() => {
-          setNewuser(true);
-        }}
-        style={{ position: 'absolute', left: 25, bottom: 35, zIndex: 100 }}
-      >
-        新增专家
-      </Button>
-
       <Modal
         title={null}
         visible={newuser}
@@ -232,6 +246,20 @@ export default function IndexPage() {
           showUpdate={false}
         />
       </Modal>
+
+      <div style={{ marginBottom: 15 }}>
+        <Button
+          type="primary"
+          onClick={() => {
+            setNewuser(true);
+          }}
+          style={{ marginRight: 12 }}
+        >
+          新增专家
+        </Button>
+        <DownloadDocx filename="专家签字表" data={{ data: filterData }} />
+      </div>
+
       <Table
         size="small"
         columns={columns}
