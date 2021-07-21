@@ -1,6 +1,6 @@
 /** 当前是否是开发模式 */
 export const DEV: boolean =
-  process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development';
+  process.env.NODE_ENV === 'test' //|| process.env.NODE_ENV === 'development';
 
 export const systemName = '企业经营事件管理系统';
 // 前台资源部署域名，默认头像图片资源调用域名
