@@ -1,7 +1,6 @@
 import { getProfessorFullUser } from '@/pages/config/tags/db';
 
 import { Tag } from 'antd';
-import { degreeList, educateList } from '@/pages/excel/db';
 
 import * as R from 'ramda';
 import * as db from './db';

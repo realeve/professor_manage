@@ -46,11 +46,11 @@ export default function IndexPage() {
       });
     }
     nextState = nextState.map((item) => {
-      if (!item.duty||item.duty == '无') {
+      if (!item.duty || item.duty == '无') {
         item.duty = '';
       }
-      if(!item.career){
-        item.career = ''
+      if (!item.career) {
+        item.career = '';
       }
       if (item.duty.length > 0) {
         item.duty = '、' + item.duty;
@@ -157,7 +157,6 @@ export default function IndexPage() {
         render: (item: IProfessorItem) => (
           <Button
             onClick={() => {
-              console.log(item);
               setCurUser(item);
               setShow(true);
             }}
@@ -179,8 +178,10 @@ export default function IndexPage() {
   useEffect(() => {
     let fTags = filters?.tags;
     if (!fTags) {
+      setDataSource(srcState)
       return;
     }
+    
     let data = R.filter((item) => {
       let flag = true;
       fTags.forEach((tag) => {
@@ -195,7 +196,7 @@ export default function IndexPage() {
   }, [filters?.tags]);
 
   const [newuser, setNewuser] = useState(false);
-  console.log(filterData);
+  
   return (
     <Card className={styles.home}>
       <Modal
@@ -266,6 +267,7 @@ export default function IndexPage() {
         loading={loading}
         dataSource={dataSource}
         onChange={handleChange}
+        locale={{ filterReset: '重置' }}
         scroll={{ x: 2200 }}
         style={{ width: 1500 }}
         pagination={{ pageSize: 15 }}
