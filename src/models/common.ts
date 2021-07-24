@@ -3,7 +3,7 @@ import { setStore, getVersion } from '@/utils/lib';
 import { axios } from '@/utils/axios';
 import { validIP } from '@/utils/setting';
 import { history } from 'umi';
-
+import {clearUserConfig} from '@/component/login/loginPanel/db'
 import '@/utils/dayjs';
 
 // 获取ip
@@ -44,9 +44,6 @@ export interface IUserSetting {
   actived: number;
   /** 部门 */
   dept_name: string;
-
-  /** 当前用户有权限的 cate id */
-  cate_id: number[];
 }
 
 // const defaultUserSetting: IUserSetting = {
@@ -62,7 +59,7 @@ export interface IUserSetting {
 
 // 未登录用户
 const defaultUserSetting: IUserSetting = {
-  uid: 2,
+  uid: null,
   avatar: '',
   username: '',
   fullname: '',
@@ -70,7 +67,7 @@ const defaultUserSetting: IUserSetting = {
   user_type: 0,
   actived: 0,
   dept_name: '',
-  cate_id: [],
+  
 };
 
 export interface ICommon {
@@ -93,6 +90,15 @@ export default {
     setStore,
   },
   effects: {
+    *logoff(_, { put }) {
+      clearUserConfig();
+      yield put({
+        type: 'setStore',
+        payload: {
+          userSetting: defaultUserSetting,
+        },
+      });
+    },
     *handleLogin({ payload: { pathname } }, { put, select }) {
       const { isLogin } = yield select((state) => state.common);
 

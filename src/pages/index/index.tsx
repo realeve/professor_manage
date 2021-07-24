@@ -15,13 +15,28 @@ import { useSetState } from 'react-use';
 import { emptyBaseInfo } from '@/pages/excel/db';
 import DownloadDocx from './docx';
 
-export default function IndexPage() {
+import { connect } from 'dva';
+import { ICommon, IUserSetting } from '@/models/common';
+
+const getIsAdmin = (user: IUserSetting) => {
+  // 编辑所有人-总公司
+  if (user.user_type == 1) {
+    return 'ALL';
+  } else if (user.user_type == 2) {
+    // 编辑所在企业
+    return user.dept_name;
+  }
+  // 不可编辑
+  return false;
+};
+
+function IndexPage({ userSetting }: { userSetting: IUserSetting }) {
   const [loading, setLoading] = useState(false);
   const [srcState, setSrcState] = useState<IProfessorItem[]>(null);
   const [dataSource, setDataSource] = useState<IProfessorItem[]>(null);
   const [columns, setColumns] = useState([]);
 
-  const isAdmin = true;
+  const isAdmin = getIsAdmin(userSetting);
 
   const [curUser, setCurUser] = useState<IProfessorItem>(null);
 
@@ -61,7 +76,9 @@ export default function IndexPage() {
     setFilterData(nextState);
   };
 
-  const handleChange = (pagination, filters) => {
+  const [pagination, setPagination] = useState({ pageSize: 15 });
+  const handleChange = (page, filters) => {
+    setPagination(page);
     setFilters(filters);
     updateFilterData(filters, dataSource);
   };
@@ -154,17 +171,24 @@ export default function IndexPage() {
         key: 'operation',
         fixed: 'right',
         width: 100,
-        render: (item: IProfessorItem) => (
-          <Button
-            onClick={() => {
-              setCurUser(item);
-              setShow(true);
-            }}
-            type="link"
-          >
-            编辑
-          </Button>
-        ),
+        render: (item: IProfessorItem) => {
+          if (isAdmin !== 'ALL') {
+            if (item.company != isAdmin) {
+              return null;
+            }
+          }
+          return (
+            <Button
+              onClick={() => {
+                setCurUser(item);
+                setShow(true);
+              }}
+              type="link"
+            >
+              编辑
+            </Button>
+          );
+        },
       });
     }
     setColumns(col);
@@ -178,10 +202,10 @@ export default function IndexPage() {
   useEffect(() => {
     let fTags = filters?.tags;
     if (!fTags) {
-      setDataSource(srcState)
+      setDataSource(srcState);
       return;
     }
-    
+
     let data = R.filter((item) => {
       let flag = true;
       fTags.forEach((tag) => {
@@ -196,7 +220,7 @@ export default function IndexPage() {
   }, [filters?.tags]);
 
   const [newuser, setNewuser] = useState(false);
-  
+
   return (
     <Card className={styles.home}>
       <Modal
@@ -270,8 +294,12 @@ export default function IndexPage() {
         locale={{ filterReset: '重置' }}
         scroll={{ x: 2200 }}
         style={{ width: 1500 }}
-        pagination={{ pageSize: 15 }}
+        pagination={pagination}
       />
     </Card>
   );
 }
+
+export default connect(({ common }: { common: ICommon }) => ({
+  userSetting: common.userSetting,
+}))(IndexPage);
